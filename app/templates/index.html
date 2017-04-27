@@ -3,7 +3,23 @@
      <title>{{ user }}'s Scribe</title>
    </head>
    <body>
+   
       Hi {{ user }} !<br/>
-      Todo: {{ content }}
+      <table border=1 width="75%">
+      <tr colspan=2>
+      <td>Upload an audio file for transcription:</td>
+      </tr>
+      <tr><form action="/transcribe" method="POST" enctype="multipart/form-data" >
+      <td>
+        <input type="file" name="file" accept="audio/*"/> Label for this file: <input type="text" name="label"/>
+        </td>
+        <td><input type="submit"></td>
+       </form>
+       </tr>
+       <tr><td> Transcripts </td><td> Status </td></tr>
+       {% for tr in transcripts %}
+          <tr><td> <a href="/transcript/{{ tr['id']}}" >{{tr['text']}} </a></td><td> {{tr['status']}}</td></tr>
+        {% endfor %}
+       </table>
 	</body>
 </html>
