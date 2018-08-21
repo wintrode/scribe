@@ -4,6 +4,20 @@ from transcriber import run_transcriber
 
 import os,json
 
+modeldir='/home/brenda/dev/kaldi/models'
+
+def readinfo(infofile, id=None) :
+    f = open (infofile)
+    tr = {}
+    tr['id']=id
+    for l in f :
+       x = l.strip().split('=')
+       if (len(x) == 2) :
+          tr[x[0]] = x[1]
+    f.close()
+    return tr
+
+
 @app.route('/')
 @app.route('/index')
 def index() :
@@ -13,14 +27,8 @@ def index() :
    for dir in dirs :
         print(dir)
         if os.path.exists(datadir + '/' + dir + '/.info') :
-            f = open (datadir + '/' + dir + "/.info")
-            tr = {}
-            tr['id']=dir
-            for l in f :
-                x = l.strip().split('=')
-                if (len(x) == 2) :
-                    tr[x[0]] = x[1]
-            f.close()
+            infofile = datadir + '/' + dir + "/.info"
+            tr = readinfo(infofile, id=dir)
             if 'status' not in tr :
                 tr['status'] = 'Unknown'
             if 'status' in tr and 'text' in tr :
@@ -38,12 +46,42 @@ def transcript(trid) :
         return "dir not found"
     if not os.path.exists(datadir + '/' + trid + "/transcript.txt") : 
         return "file not found"
-    
+    tr = readinfo(datadir + '/' + trid + "/.info")
     trans = datadir + '/' + trid + "/transcript.txt"
     print('Returning ' + trans)
-    return send_file(trans)
-    
+    textonly = request.args.get('textonly')
+    if textonly is not None :
+        return send_file(trans)
+    t = open(trans, 'r')
+    trdata = []
+    for l in t :
+       x = l.strip().split(' ', 1)
+       if (len(x) != 2) :
+           continue
+       (pref, frame) = x[0].split('_')
+       secs = int(frame) / 100.0
+       mins = int (secs / 60)
+       secs -= mins * 60.0 
+       msecs = secs - int(secs)
+       trdata.append(("%4d:%02d.%01d" % (mins,secs,int(msecs*10)), x[1], trid, frame))
+       
+    return render_template('transcript.html', transcript=trans, 
+                             label=tr['text'], data=trdata, user='Brenda')
+
    
+@app.route('/audio/<trid>')
+def audio(trid) :
+    if not os.path.exists(datadir + '/' + trid) : 
+        return "dir not found"
+    if not os.path.exists(datadir + '/' + trid + "/audio8k.wav") : 
+        return "file not found"
+    wav = datadir + '/' + trid + "/audio8k.wav"
+    start = request.args.get('start')
+    if start is not None :
+       wav = datadir + "/" + trid + "/audio8k-" + start + ".wav"
+
+    return send_file(wav)
+
 @app.route('/transcribe', methods=['POST'])
 def transcribe() :
     print(request.method)
@@ -85,7 +123,7 @@ def transcribe() :
     print "Saving file to " + newfile
     
     file.save(newfile) 
-    run_transcriber(workdir)
+    run_transcriber(workdir, modeldir)
     return redirect('/')
     #return file.filename
 

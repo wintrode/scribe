@@ -18,7 +18,8 @@
        </tr>
        <tr><td> Transcripts </td><td> Status </td></tr>
        {% for tr in transcripts %}
-          <tr><td> <a href="/transcript/{{ tr['id']}}" >{{tr['text']}} </a></td><td> {{tr['status']}}</td></tr>
+          <tr><td> <a href="/transcript/{{ tr['id']}}" >{{tr['text']}} </a>
+         (<a href="/transcript/{{ tr['id']}}?textonly=1">text only</a>)</td><td> {{tr['status']}}</td></tr>
         {% endfor %}
        </table>
 	</body>

@@ -1,0 +1,22 @@
+<html>
+   <head>
+     <title>Transcript for {{ label }}</title>
+   </head>
+   <body>
+   
+      <h2>Transcription for {{ label }} </h2>
+      <table border=0 cellpadding=2 width="95%">
+       <tr><td width="15%"> <b>Segment</b></td><td> <b>Text</b> </td><td></td></tr>
+       {% for seg in data %}
+          <tr><td> {{label}} {{seg[0]}}
+          </td>
+          <td style="background-color:#f0f0f0;  vertical-align:top"> {{seg[1]}}
+ 			</td><td>
+				<audio controls>
+               <source src="/audio/{{seg[2]}}?start={{seg[3]}}" type="audio/wav"/>
+            </audio>
+          </td></tr>
+        {% endfor %}
+       </table>
+	</body>
+</html>

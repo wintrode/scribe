@@ -3,10 +3,14 @@
 # set KALDI_HOME
 KALDI_HOME=$HOME/dev/kaldi
 
+bindir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 workdir=$1
 modeldir=$2
 
 cd $workdir
+
+
 
 if [ -f audio.wav ]; then
   audio=audio.wav
@@ -29,6 +33,9 @@ ln -s $modeldir/utils utils
 cp $modeldir/path.sh .
 #cp $modeldir/cmd.sh .
 
+sed -i 's/^status=.*/status=In process/' .info
+
+source path.sh
 
 # run VAD
 # create wav.scp, segments, spk2utt
@@ -79,3 +86,8 @@ lattice-scale --inv-acoustic-scale=10 "ark:gunzip -c lat.1.gz|" ark:- | \
       tee lat.1.ctm
 
 
+perl $bindir/ctm2trans.pl lat.1.ctm > transcript.txt
+
+sed -i 's/^status=.*/status=Complete/' .info
+
+perl $bindir/split_wav.pl audio8k.wav segments
