@@ -56,6 +56,19 @@ if [ ! -f segments ]; then
 compute-vad --config=$modeldir/vad.conf scp:mfcc/raw_mfcc.scp ark,scp:mfcc/vad.ark,mfcc/vad.scp
 copy-vector ark:mfcc/vad.ark ark,t:- | sed 's/ /\n/g' | \
     perl $modeldir/vad_segment.pl testaudio
+
+utils/spk2utt_to_utt2spk.pl spk2utt > utt2spk
+
+cat wav.scp | perl $modeldir/split_seg.pl \
+	utt2spk u2s.seg segments seg umap sox 30 10 0
+
+mv utt2spk utt2spk.old
+mv u2s.seg utt2spk
+mv segments segments.old
+mv seg segments
+
+utils/utt2spk_to_spk2utt.pl utt2spk > spk2utt
+
 fi
 
 # decode
