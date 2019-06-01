@@ -1,10 +1,10 @@
 from flask import render_template, send_file, request, redirect
-from app import app,datadir
-from transcriber import run_transcriber
+from scribe import app,datadir,modeldir
+from scribe.transcriber import run_transcriber
 
 import os,json
 
-modeldir='/home/brenda/dev/kaldi/models'
+#modeldir='/home/brenda/dev/kaldi/models'
 
 def readinfo(infofile, id=None) :
     f = open (infofile)
@@ -120,7 +120,7 @@ def transcribe() :
         return "Invalid file"
     ext = g[1]
     newfile = workdir + '/audio.' + ext
-    print "Saving file to " + newfile
+    print("Saving file to " + newfile)
     
     file.save(newfile) 
     run_transcriber(workdir, modeldir)

@@ -1,14 +1,14 @@
-#!flask/bin/python
-import app
+#!flask
+import scribe
 import sys, os
 
 if len(sys.argv) > 1 :
-   app.datadir='.scribedata'
+   scribe.datadir='.scribedata'
 
-if not os.path.exists(app.datadir) :
-   os.makedirs(app.datadir)
+if not os.path.exists(scribe.datadir) :
+   os.makedirs(scribe.datadir)
 
-print(app.datadir)
+print("Writing to " + scribe.datadir)
    
-app.app.run(debug=True)
+scribe.app.run(debug=True)
 

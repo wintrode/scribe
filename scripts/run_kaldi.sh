@@ -1,7 +1,10 @@
 #!/bin/bash
 
-# set KALDI_HOME
-KALDI_HOME=$HOME/dev/kaldi
+# set KALDI_ROOT
+if [ -z $KALDI_ROOT ]; then
+    echo KALDI_ROOT not set, using default /opt/software/kaldi/kaldi-current   
+    KALDI_ROOT=/opt/software/kaldi/kaldi-current
+fi
 
 bindir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 

@@ -1,0 +1,27 @@
+<html>
+   <head>
+     <title>{{ user }}'s Scribe</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/scribe.css') }}">
+   </head>
+   <body>
+   
+     <h2>Scribe<img src="{{ url_for('static', filename='icon.png') }}" width="64"/></h2>
+     Upload an audio file for transcription:<br/>
+     <form action="/transcribe" method="POST" enctype="multipart/form-data" > 
+
+        <!--<input type="file" name="file" accept="audio/*"/> Label for this file: <input type="text" name="label"></input>-->
+        <input type="file" name="file" /> Label for this file: <input type="text" name="label"></input>
+        <input type="submit" name='x' value="tranScribe" />
+       </form>
+
+     <table border=1 width="75%">
+       <tr><th width="100%"> Transcripts </th><th>Timestamp</th><th> Status </th></tr>
+       {% for tr in transcripts %}
+          <tr><td> <a href="/transcript/{{ tr['id']}}" >{{tr['text']}} </a>
+              (<a href="/transcript/{{ tr['id']}}?textonly=1">text only</a>)</td>
+	    <td> time </td>
+	    <td> {{tr['status']}}</td></tr>
+        {% endfor %}
+       </table>
+	</body>
+</html>

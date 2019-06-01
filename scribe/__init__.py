@@ -3,7 +3,8 @@ from os.path import expanduser
 home = expanduser("~")
 
 datadir=home + '/.scribedata/'
+modeldir="/opt/software/kaldi/models/aspire"
 
 app = Flask(__name__)
-from app import views
+from scribe import views
 
