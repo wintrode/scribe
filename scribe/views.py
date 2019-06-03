@@ -21,11 +21,16 @@ def readinfo(infofile, id=None) :
 @app.route('/')
 @app.route('/index')
 def index() :
+   return render_template('index.html',
+                           user='Brenda')
+
+
+@app.route('/files')
+def fileList() :
    transcripts = []
    dirs = os.listdir(datadir)
    print(datadir, dirs)
    for dir in dirs :
-        print(dir)
         if os.path.exists(datadir + '/' + dir + '/.info') :
             infofile = datadir + '/' + dir + "/.info"
             tr = readinfo(infofile, id=dir)
@@ -34,12 +39,18 @@ def index() :
             if 'status' in tr and 'text' in tr :
                 transcripts.append(tr)
    print(transcripts)
-   return render_template('index.html',
+   return render_template('files.html',
                            user='Brenda',
                            content=datadir,
                            transcripts=transcripts)
 
-                           
+
+
+
+@app.route('/<trid>.html')
+def default_template(trid) :
+    return render_template(trid + ".html")
+
 @app.route('/transcript/<trid>')
 def transcript(trid) :
     if not os.path.exists(datadir + '/' + trid) : 

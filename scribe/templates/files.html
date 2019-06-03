@@ -1,0 +1,17 @@
+     <table class="info" border=0 width="75%">
+       <tr><th width="66%"> Transcripts </th><th>Timestamp</th>
+	 <th> Status </th></tr>
+       {% for tr in transcripts %}
+          <tr><td> <a href="/transcript/{{ tr['id']}}" >{{tr['text']}} </a>
+              (<a href="/transcript/{{ tr['id']}}?textonly=1">text only</a>)
+	      <img class="decor" src="{{url_for('static', filename='edit.png') }}" height="16" onclick="OnEdit()" />
+	      {% if tr['status'] != "Complete" %}
+	      <img class="decor" src="{{url_for('static', filename='stop.png') }}" height="16" onclick="OnStop()" />
+	      {% endif %}
+	      <img class="decor" src="{{url_for('static', filename='trash.png') }}" height="16" onclick="OnDelete()" />
+	      <img src="/static/blank.png" height="18" width="1"/>
+	    </td>
+	    <td> time </td>
+	    <td> {{tr['status']}}</td></tr>
+        {% endfor %}
+       </table>

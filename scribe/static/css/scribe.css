@@ -1,26 +1,27 @@
-table {
+
+.info table {
   border-collapse: collapse;
 }
 
-th {
+.info th {
     background: #ff4411;
     color: #ffffff;
 }
 
-th, td {
+.info th, td {
   border: 1px solid #ffffff;
   padding: 8px;
 }
 
-tr:nth-child(even) {
+.info tr:nth-child(even) {
   background: #efefef;
 }
 
-tr:hover {
+.info tr:hover {
   background: #d1d1d1;
 }
 
-tr:hover {
+.info tr:hover {
   background: #d1d1d1;
 }
 
@@ -41,5 +42,15 @@ a:hover {
 
 body {
     font-family: Verdana, Geneva, sans-serif
+}
+
+/*img {
+*    border:solid 1px red; margin:10px;
+*}
+*/
+
+.decor:hover{
+    background-color:#CCCCCC;
+    border: 1px solid #a03c21;
 }
 

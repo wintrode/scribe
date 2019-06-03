@@ -1,27 +1,29 @@
-<html>
+<html ng-app="scribe" >
    <head>
      <title>{{ user }}'s Scribe</title>
      <link rel="stylesheet" href="{{ url_for('static', filename='css/scribe.css') }}">
+     <script src="/static/js/angular.min.js"></script>
+     <script  src="{{ url_for('static', filename='js/scctl/handlers.js' ) }}" ></script>
+
    </head>
-   <body>
-   
+   <body ng-controller="scctl">
      <h2>Scribe<img src="{{ url_for('static', filename='icon.png') }}" width="64"/></h2>
      Upload an audio file for transcription:<br/>
-     <form action="/transcribe" method="POST" enctype="multipart/form-data" > 
-
-        <!--<input type="file" name="file" accept="audio/*"/> Label for this file: <input type="text" name="label"></input>-->
-        <input type="file" name="file" /> Label for this file: <input type="text" name="label"></input>
-        <input type="submit" name='x' value="tranScribe" />
-       </form>
-
-     <table border=1 width="75%">
-       <tr><th width="100%"> Transcripts </th><th>Timestamp</th><th> Status </th></tr>
-       {% for tr in transcripts %}
-          <tr><td> <a href="/transcript/{{ tr['id']}}" >{{tr['text']}} </a>
-              (<a href="/transcript/{{ tr['id']}}?textonly=1">text only</a>)</td>
-	    <td> time </td>
-	    <td> {{tr['status']}}</td></tr>
-        {% endfor %}
+     <table width="75%" border="0" >
+       <tr>
+	 <td>
+	   <form action="/transcribe" method="POST" enctype="multipart/form-data" > 
+             <input type="file" name="file" accept="audio/*" /> Label for this file: <input type="text" name="label"></input>
+             <input type="submit" name='x' value="tranScribe" />
+	   </form>
+	 </td>
+	 <td width="32">
+	   <img class="decor" src="{{ url_for('static', filename='reload.png') }}" width="32" ng-click="loadSection('files')" />
+	 </td>
+       </tr>
        </table>
-	</body>
+     <div id="files" ng-init="loadSection('files')"></div>
+
+   </body>
+
 </html>

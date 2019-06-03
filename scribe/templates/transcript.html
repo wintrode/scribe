@@ -10,11 +10,12 @@
        {% for seg in data %}
           <tr><td> {{label}} {{seg[0]}}
           </td>
-          <td style="background-color:#f0f0f0;  vertical-align:top"> {{seg[1]}}
- 			</td><td>
-				<audio controls>
+            <td style="background-color:#f0f0f0;  vertical-align:top"> {{seg[1]}} </td>
+	    <td>
+	      <audio controls>
+		<!-- add time marks to source -->
                <source src="/audio/{{seg[2]}}?start={{seg[3]}}" type="audio/wav"/>
-            </audio>
+               </audio>
           </td></tr>
         {% endfor %}
        </table>
