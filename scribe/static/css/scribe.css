@@ -4,7 +4,8 @@
 }
 
 .info th {
-    background: #ff4411;
+    //background: #ff4411;
+    background: #307d7e;
     color: #ffffff;
 }
 
@@ -27,17 +28,19 @@
 
 
 h2 {
-    color: #ff4411; font-size: 40px;
+    //color: #ff4411; font-size: 40px;
+    color: #307d7e; font-size: 40px;
     font-family: "Lucida Console", Monaco, monospace;
     padding-bottom:6px;
 }
 
 
-a { color: #ff4411; transition: .5s; -moz-transition: .5s; -webkit-transition: .5s; -o-transition: .5s; }
+a { color: #307d7e; transition: .5s; -moz-transition: .5s; -webkit-transition: .5s; -o-transition: .5s; }
 
 
 a:hover {
-    color: #a03c21
+    //color: #a03c21
+    color: #707d7e
 }
 
 body {
@@ -51,6 +54,7 @@ body {
 
 .decor:hover{
     background-color:#CCCCCC;
-    border: 1px solid #a03c21;
+    //border: 1px solid #a03c21;
+    border: 1px solid #707d7e;
 }
 
