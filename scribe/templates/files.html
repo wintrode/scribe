@@ -4,11 +4,11 @@
        {% for tr in transcripts %}
           <tr><td> <a href="/transcript/{{ tr['id']}}" >{{tr['text']}} </a>
               (<a href="/transcript/{{ tr['id']}}?textonly=1">text only</a>)
-	      <img class="decor" src="{{url_for('static', filename='edit.png') }}" height="16" onclick="OnEdit()" />
+	      <img class="decor" src="{{url_for('static', filename='edit.png') }}" height="16" onclick="onEdit()" />
 	      {% if tr['status'] != "Complete" %}
-	      <img class="decor" src="{{url_for('static', filename='stop.png') }}" height="16" onclick="OnStop()" />
+	      <img class="decor" src="{{url_for('static', filename='stop.png') }}" height="16" onclick="onStop()" />
 	      {% endif %}
-	      <img class="decor" src="{{url_for('static', filename='trash.png') }}" height="16" onclick="OnDelete()" />
+	      <img class="decor" src="{{url_for('static', filename='trash.png') }}" height="16" onclick="onDelete({{tr['id']}})" />
 	      <img src="/static/blank.png" height="18" width="1"/>
 	    </td>
 	    <td> time </td>

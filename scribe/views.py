@@ -3,6 +3,7 @@ from scribe import app,datadir,modeldir
 from scribe.transcriber import run_transcriber
 
 import os,json
+import shutil
 
 #modeldir='/home/brenda/dev/kaldi/models'
 
@@ -141,3 +142,24 @@ def transcribe() :
 @app.route('/favicon.ico')
 def icon() :
   return app.send_static_file('favicon.ico')
+
+import sys
+
+@app.route('/delete-transcript/<trid>', methods=['POST'])
+def delete_transcript(trid) :
+    print("DELETE " + trid)
+    if os.path.exists(datadir + '/' + trid + '/.info') :
+        tr = readinfo(datadir + "/" + trid + "/.info", id=dir)
+        if tr['status'] != "Complete" :
+            # stop
+            print("Stopping job : " + trid)
+
+        if not os.path.isdir(datadir + "/.trash") :
+            os.makedirs(datadir + "/.trash")
+            
+        shutil.move(datadir + "/" + trid, datadir + "/.trash")
+        #sys.stderr.write('shutil.move(datadir + "/" + trid, datadir + "/.trash")\n')
+        
+        return "Delete OK"
+    else :
+        return "Not found"

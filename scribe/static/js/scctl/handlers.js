@@ -50,11 +50,26 @@ function onEditCancel() {
 
 
 function onStop() {
+    
     console.log("Stop clicked");
 }
 
-function onDelete() {
-    console.log("Edit clicked");
+function onDelete(id) {
+    console.log("Delete clicked");
+
+    var xhttp = new XMLHttpRequest();
+    
+    xhttp.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+	    console.log(this.responseText);
+	    loadSectionPlain('files');
+	}
+    };
+    xhttp.open("POST", "/delete-transcript/"+id, true);
+    console.log("Sending request")
+    xhttp.send();
+
+    
 }
 
 
